@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Player : CharacterBody2D
 {
@@ -19,6 +20,11 @@ public partial class Player : CharacterBody2D
 
    [Export]
    public float Width { get; set; } = 96; // Snagging the animation frame's sprite width is convoluded. Do this instead.
+
+   [Export]
+   // Will create a field that can be linked to the counter label node and become accessible to the Player object
+   // without needing to nest it under the player itself.
+   public RichTextLabel CounterLabelNode { get; set; }
 
    #endregion
 
@@ -105,6 +111,20 @@ public partial class Player : CharacterBody2D
    }
 
    /// <summary>
+   /// Handles collecting an object.
+   /// </summary>
+   public void Collect(Node2D collectedItem)
+   {
+      if (collectedItem != null && collectedItem.IsInGroup("Collectible"))
+      {
+         ++_collectionCount;
+         CounterLabelNode.Text = $"{_collectionCount}";
+
+         GetNode<AudioStreamPlayer>("CollectSfx")?.Play();
+      }
+   }
+
+   /// <summary>
    /// Forces the player to die and reset to the starting position.
    /// </summary>
    public void DieAndReset()
@@ -121,6 +141,8 @@ public partial class Player : CharacterBody2D
    private Vector2 _screenSize;
 
    private Vector2 _startingPosition;
+
+   private int _collectionCount = 0;
 
    #endregion
 }

@@ -32,12 +32,13 @@ public partial class BlueFlag : Area2D
    /// <param name="body">The body that entered.</param>
    private void OnBodyEntered(Node2D body)
    {
-      if (body != null && body.IsInGroup("Player"))
-      {
+      if (body is Player player)
+      { 
          var label = GetNode<RichTextLabel>("HelloWorldLabel");
          if (label != null)
          {
             label.Show();
+            player.Collect(this);
          }
       }
    }

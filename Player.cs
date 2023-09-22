@@ -113,15 +113,12 @@ public partial class Player : CharacterBody2D
    /// <summary>
    /// Handles collecting an object.
    /// </summary>
-   public void Collect(Node2D collectedItem)
+   public void Collect()
    {
-      if (collectedItem != null && collectedItem.IsInGroup("Collectible"))
-      {
-         ++_collectionCount;
-         CounterLabelNode.Text = $"{_collectionCount}";
+      ++_collectionCount;
+      CounterLabelNode.Text = $"{_collectionCount}";
 
-         GetNode<AudioStreamPlayer>("CollectSfx")?.Play();
-      }
+      GetNode<AudioStreamPlayer>("CollectSfx")?.Play();
    }
 
    /// <summary>

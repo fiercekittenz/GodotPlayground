@@ -24,6 +24,10 @@ public partial class BlueFlag : Area2D
    /// <param name="delta"></param>
    public override void _Process(double delta)
    {
+      if (_summonState == SummoningState.Coin)
+      {
+         SummonCoin();
+      }
    }
 
    /// <summary>
@@ -33,12 +37,16 @@ public partial class BlueFlag : Area2D
    private void OnBodyEntered(Node2D body)
    {
       if (body is Player player)
-      { 
+      {
          var label = GetNode<RichTextLabel>("HelloWorldLabel");
          if (label != null)
          {
             label.Show();
-            player.Collect(this);
+         }
+
+         if (_summonState == SummoningState.None)
+         { 
+            _summonState = SummoningState.Coin;
          }
       }
    }
@@ -59,11 +67,38 @@ public partial class BlueFlag : Area2D
       }
    }
 
+   /// <summary>
+   /// Summons a single coin and sets the state such that it cannot be summoned again.
+   /// </summary>
+   private void SummonCoin()
+   {
+      if (_summonState != SummoningState.Coin)
+      {
+         return;
+      }
+
+      var coin = GD.Load<PackedScene>("res://ChildScenes/Items/pickup_item.tscn").Instantiate<Node2D>();
+      if (coin != null)
+      {
+         AddChild(coin);
+         coin.GlobalPosition = new Vector2(950, 500);
+         _summonState = SummoningState.OutOfCoins;
+      }
+   }
+
    #endregion
 
    #region Private Members
 
    private CollisionShape2D _collisionShape2D;
+
+   private enum SummoningState
+   {
+      None,
+      Coin,
+      OutOfCoins
+   };
+   private SummoningState _summonState = SummoningState.None;
 
    #endregion
 }

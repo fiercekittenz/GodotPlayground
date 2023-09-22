@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://brhgj04rpb5mh"]
+
+[ext_resource type="Script" path="res://ChildScenes/Items/PickupItem.cs" id="1_g3rw1"]
+[ext_resource type="Texture2D" uid="uid://cn8btfmcu30w3" path="res://Assets/Items/coinGold.png" id="1_sg877"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pk1q6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_sg877")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fb8fd"]
+radius = 19.0263
+
+[node name="PickupItem" type="Area2D" groups=["Collectible"]]
+position = Vector2(-277.202, -265.812)
+input_pickable = false
+script = ExtResource("1_g3rw1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_pk1q6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_fb8fd")
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]

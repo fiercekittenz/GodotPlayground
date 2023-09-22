@@ -2,7 +2,9 @@
   "profiles": {
     "Playground": {
       "commandName": "Project",
-      "commandLineArgs": "-e --path \"D:\\Dev\\Godot\\Playground\\\""
+      "commandLineArgs": "-e --path \"D:\\Dev\\Godot\\Playground\\\"",
+      "hotReloadEnabled": false,
+      "nativeDebugging": true
     }
   }
 }
